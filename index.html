@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theoria — Literature Review, Automated</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --fg: #0a0a0a;
+    --fg-2: #6b6b6b;
+    --fg-3: #b0b0b0;
+    --border: #e8e8e8;
+    --accent: #0a0a0a;
+    --accent-hover: #333;
+    --surface: #f7f7f7;
+    --mono: 'Geist Mono', monospace;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .nav-cta {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 16px;
+    background: var(--fg);
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .nav-cta:hover { background: var(--accent-hover); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--fg-2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px 14px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.1s forwards;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+  }
+
+  h1 {
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    max-width: 800px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.2s forwards;
+  }
+
+  h1 em {
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .hero-sub {
+    margin-top: 24px;
+    font-size: 17px;
+    color: var(--fg-2);
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.65;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.3s forwards;
+  }
+
+  .hero-actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 12px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.4s forwards;
+  }
+
+  .btn-primary {
+    padding: 11px 24px;
+    background: var(--fg);
+    color: white;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .btn-primary:hover { background: #222; transform: translateY(-1px); }
+
+  .btn-secondary {
+    padding: 11px 24px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-size: 14px;
+    color: var(--fg);
+    text-decoration: none;
+    transition: border-color 0.15s, transform 0.1s;
+  }
+
+  .btn-secondary:hover { border-color: #aaa; transform: translateY(-1px); }
+
+  /* TERMINAL PREVIEW */
+  .terminal-wrap {
+    margin-top: 72px;
+    width: 100%;
+    max-width: 680px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.5s forwards;
+  }
+
+  .terminal {
+    background: #0a0a0a;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #1e1e1e;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    text-align: left;
+  }
+
+  .terminal-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #1e1e1e;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #ffbd2e; }
+  .dot-g { background: #28ca41; }
+
+  .terminal-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #555;
+    margin-left: 8px;
+  }
+
+  .terminal-body {
+    padding: 20px 24px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.8;
+  }
+
+  .t-prompt { color: #555; }
+  .t-cmd { color: #e5e5e5; }
+  .t-step { color: #888; }
+  .t-ok { color: #22c55e; }
+  .t-out { color: #a0a0a0; }
+  .t-highlight { color: #60a5fa; }
+  .t-cursor {
+    display: inline-block;
+    width: 7px; height: 13px;
+    background: #e5e5e5;
+    vertical-align: middle;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* SECTION */
+  section {
+    padding: 96px 24px;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--fg-3);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    max-width: 560px;
+  }
+
+  .section-title em { font-style: normal; font-weight: 500; }
+
+  /* HOW IT WORKS */
+  .steps {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .step {
+    background: var(--bg);
+    padding: 32px 28px;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--fg-3);
+    margin-bottom: 20px;
+  }
+
+  .step-icon {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .step h3 {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    font-size: 13.5px;
+    color: var(--fg-2);
+    line-height: 1.6;
+  }
+
+  /* FEATURES */
+  .features {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .feature {
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .feature:hover {
+    border-color: #ccc;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+
+  .feature h3 {
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+  }
+
+  .feature p {
+    font-size: 13px;
+    color: var(--fg-2);
+    line-height: 1.65;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 24px;
+  }
+
+  /* CTA SECTION */
+  .cta-section {
+    text-align: center;
+    padding: 96px 24px 120px;
+  }
+
+  .cta-section h2 {
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 300;
+    letter-spacing: -0.04em;
+    margin-bottom: 20px;
+  }
+
+  .cta-section h2 em { font-style: normal; font-weight: 500; }
+
+  .cta-section p {
+    font-size: 16px;
+    color: var(--fg-2);
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  .cta-input-row {
+    display: flex;
+    gap: 10px;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  .cta-input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    font-family: var(--sans);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .cta-input:focus { border-color: #aaa; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--fg-2);
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--fg-3);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Theoria</a>
+  <a class="nav-cta" href="#early">Get early access</a>
+</nav>
+
+<div class="hero">
+  <div class="badge">
+    <span class="badge-dot"></span>
+    Powered by GLM-5.1 · Early access
+  </div>
+
+  <h1>Literature review,<br><em>done in minutes.</em></h1>
+
+  <p class="hero-sub">
+    Theoria searches, reads, and synthesizes academic papers into structured reviews — so you can focus on the research that matters.
+  </p>
+
+  <div class="hero-actions">
+    <a href="#early" class="btn-primary">Request access</a>
+    <a href="#how" class="btn-secondary">See how it works →</a>
+  </div>
+
+  <div class="terminal-wrap">
+    <div class="terminal">
+      <div class="terminal-header">
+        <span class="dot dot-r"></span>
+        <span class="dot dot-y"></span>
+        <span class="dot dot-g"></span>
+        <span class="terminal-title">theoria — research session</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="t-prompt">→ </span><span class="t-cmd">theoria run "AI agents in enterprise workflow automation"</span></div>
+        <div style="margin-top:8px"><span class="t-step">  ⟳ Searching</span> <span class="t-highlight">Semantic Scholar, ArXiv, ACM DL</span></div>
+        <div><span class="t-step">  ⟳ Retrieved</span> <span class="t-ok">847 papers</span> <span class="t-step">→ filtered to</span> <span class="t-ok">63 relevant</span></div>
+        <div><span class="t-step">  ⟳ Reading full text of top 24 papers...</span></div>
+        <div><span class="t-step">  ⟳ Extracting claims, methods, limitations</span></div>
+        <div><span class="t-step">  ⟳ Identifying research gaps</span></div>
+        <div style="margin-top:8px"><span class="t-ok">  ✓ Done</span> <span class="t-step">in 3m 12s</span></div>
+        <div style="margin-top:8px"><span class="t-out">  → Generated: </span><span class="t-highlight">literature_review.md</span> <span class="t-out">(4,200 words)</span></div>
+        <div><span class="t-out">  → Citation map: </span><span class="t-highlight">citations.bib</span> <span class="t-out">(63 entries)</span></div>
+        <div><span class="t-out">  → Research gaps: </span><span class="t-highlight">3 identified</span></div>
+        <div style="margin-top:8px"><span class="t-prompt">→ </span><span class="t-cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<section id="how">
+  <div class="section-label">How it works</div>
+  <h2 class="section-title">From research question<br>to structured review — <em>automatically.</em></h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Search & retrieve</h3>
+      <p>Agent queries Semantic Scholar, ArXiv, and ACM across your research domain, filtering by relevance, recency, and citation count.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Read & extract</h3>
+      <p>Full-text reading of top papers. Extracts core claims, methodology, datasets, limitations, and key findings.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Synthesize</h3>
+      <p>Organizes findings into a structured narrative. Surfaces contradictions, consensus, and open research gaps.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Export</h3>
+      <p>Outputs a structured Markdown review with inline citations, a .bib file, and a visual citation graph.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<section id="features">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">Built for<br><em>serious researchers.</em></h2>
+
+  <div class="features">
+    <div class="feature">
+      <h3>Long-horizon execution</h3>
+      <p>Runs autonomously across hundreds of papers without losing context. Powered by GLM-5.1's extended agent task architecture.</p>
+    </div>
+    <div class="feature">
+      <h3>Relevance filtering</h3>
+      <p>Not just keyword matching. Semantic understanding of your research question to surface papers that actually matter.</p>
+    </div>
+    <div class="feature">
+      <h3>Citation graph</h3>
+      <p>Visualize how papers relate to each other. Identify influential clusters and trace the evolution of ideas.</p>
+    </div>
+    <div class="feature">
+      <h3>Editable output</h3>
+      <p>Review drafts are structured Markdown — ready to paste into Notion, Obsidian, Overleaf, or any writing tool.</p>
+    </div>
+    <div class="feature">
+      <h3>Source transparency</h3>
+      <p>Every claim links back to its source. No hallucinated citations. Full traceability from output to paper.</p>
+    </div>
+    <div class="feature">
+      <h3>Adapts to your research style</h3>
+      <p>Learns your domain focus, preferred journals, and synthesis patterns over time. The more you use it, the more precisely it thinks like you.</p>
+    </div>
+    <div class="feature">
+      <h3>Multi-domain</h3>
+      <p>CS, HCI, management, psychology, engineering. Works across disciplines with domain-adaptive summarization.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<div class="cta-section" id="early">
+  <h2>Start your next review<br><em>today.</em></h2>
+  <p>Early access — free during beta.</p>
+  <div class="cta-input-row">
+    <input class="cta-input" type="email" placeholder="your@email.com">
+    <a href="#" class="btn-primary">Join waitlist</a>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo">Theoria</span>
+  <span class="footer-note">Built with GLM-5.1 · Munich, 2026</span>
+</footer>
+
+</body>
+</html>
