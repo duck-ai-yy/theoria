@@ -8,15 +8,6 @@ Theoria 是面向学术研究者的 AI 科研伙伴。自然语言驱动，覆�
 
 不是更强的搜索引擎，是更懂你的研究伙伴。
 
-> 点击上方图片访问官网 → **<https://duck-ai-yy.github.io/theoria/>**
-
----
-
-## About
-
-Theoria 是为欧洲学术圈 PhD 学生打造的 AI 科研伙伴，从文献综述切入，覆盖全科研流程。
-官网：<https://duck-ai-yy.github.io/theoria/>
-
 ---
 
 ## 定位
