@@ -48,7 +48,7 @@ Theoria 的关键不在于搜索更广，而在于**跨会话记忆**：
 | 层 | 选型 | 说明 |
 | --- | --- | --- |
 | **数据层** | Semantic Scholar + OpenAlex + arXiv | 开放学术数据，零成本接入 |
-| **模型层** | GLM-5.1 | 通过 Z.ai Startup Program 申请 credits |
+| **模型层** | GLM-4.6 | 通过 Z.ai Startup Program 申请 credits |
 | **交互层** | 自然语言 CLI / Web | 长程任务自主执行 |
 
 ---
@@ -66,4 +66,4 @@ Theoria 的关键不在于搜索更广，而在于**跨会话记忆**：
 
 ## 状态
 
-Early access · Beta 期间免费 · Built with GLM-5.1 · Munich, 2026
+Early access · Beta 期间免费 · Built with GLM-4.6 · Munich, 2026
